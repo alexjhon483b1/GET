@@ -21,6 +21,9 @@ int main(void) {
     char host[MAX_SIZE];
     printf("enter the host: ");
     scanf("%s", host);
+    char host2[MAX_SIZE];
+    printf("enter the host2: ");
+    scanf("%s", host2);
     CURL *curl;
     CURLcode res;
 
@@ -46,8 +49,10 @@ int main(void) {
         struct curl_slist *headers = NULL;
         headers = curl_slist_append(headers, "User-Agent: Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:100.0) Gecko/20100101 Firefox/100.0");
         char customHeader[800]; // Adjust the size accordingly
-        snprintf(customHeader, sizeof(customHeader), "Host: %s", host);
+        snprintf(customHeader, sizeof(customHeader), "Host: %s", host2);
         headers = curl_slist_append(headers, customHeader);
+        headers = curl_slist_append(headers, "Referer: https://albd.org/articles/news/31485/BNP-Jamaat%E2%80%99s-Deadly-Brand-of-%E2%80%9CTerror-Politics%E2%80%9D-in-Bangladesh");
+        
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
         // Perform the request and capture the result
