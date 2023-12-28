@@ -52,7 +52,18 @@ int main(int argc, char *argv[]) {
     
     //prepearing the request 
     char request[BUFFER_SIZE];
-    snprintf(request, BUFFER_SIZE, "GET / HTTP/1.1\r\nHost: %s\r\n\r\n", hostname);
+    snprintf(request, BUFFER_SIZE,
+    
+    "GET / HTTP/1.1\r\n"
+"Host: %s\r\n"
+"User-Agent: Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:100.0) Gecko/20100101 Firefox/100.0\r\n"
+"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8\r\n"
+"Accept-Language: en-US,en;q=0.5\r\n"
+"Accept-Encoding: gzip, deflate\r\n"
+"Connection: keep-alive\r\n"
+"Upgrade-Insecure-Requests: 1\r\n\r\n"
+    
+,hostname);
 
     if (send(sockfd, request, strlen(request), 0) < 0) {
         error("Error sending request");
