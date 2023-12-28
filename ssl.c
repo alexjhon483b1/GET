@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <curl/curl.h>
 
+#define MAX_SIZE 800
+
 // Callback function to write response data
 size_t write_callback(void *contents, size_t size, size_t nmemb, void *userp) {
     size_t realsize = size * nmemb;
@@ -16,6 +18,9 @@ size_t header_callback(void *contents, size_t size, size_t nmemb, void *userp) {
 }
 
 int main(void) {
+    char host[MAX_SIZE];
+    printf("enter the host: ");
+    scanf("%s", host);
     CURL *curl;
     CURLcode res;
 
@@ -26,7 +31,7 @@ int main(void) {
     curl = curl_easy_init();
     if (curl) {
         // Set the URL
-        curl_easy_setopt(curl, CURLOPT_URL, "https://youtube.com");
+        curl_easy_setopt(curl, CURLOPT_URL, host);
 
         // Set the callback function to handle response data
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
@@ -40,7 +45,9 @@ int main(void) {
         // Add custom headers
         struct curl_slist *headers = NULL;
         headers = curl_slist_append(headers, "User-Agent: Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:100.0) Gecko/20100101 Firefox/100.0");
-        headers = curl_slist_append(headers, "Host: youtube.com");
+        char customHeader[800]; // Adjust the size accordingly
+        snprintf(customHeader, sizeof(customHeader), "Host: %s", host);
+        headers = curl_slist_append(headers, customHeader);
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
         // Perform the request and capture the result
